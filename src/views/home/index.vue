@@ -236,22 +236,34 @@ export default {
   },
 
   methods: {
-    onSubmit() {
+    onSubmit(event) {
       
-      checkForm();
+      this.checkForm(event);
         // event.preventDefault();
 
         // this.$root.$emit("bv::show::modal", "modalForm");
       
     },
-    checkForm() {
+    checkForm(event) {
+      let regexp = /[a-zA-Z]+\s+[a-zA-Z]+/g;
       if (this.renda < 1000) {
         this.$notify({ 
           group: 'foo', 
           type: 'error',
           title: 'Erro',
-          text: 'Wrong password, please try again later'
+          text: 'A renda deve ser maior ou igual a R$ 1.000,00'
         })
+        event.preventDefault();
+      }
+      if (!regexp.test(this.nome)) {
+        console.log("regex: ", regexp)
+        this.$notify({ 
+          group: 'foo', 
+          type: 'error',
+          title: 'Erro',
+          text: 'O campo deve conter pelo menos Nome e Sobrenome'
+        })
+        event.preventDefault();
       }
     },
     onReset(event) {
